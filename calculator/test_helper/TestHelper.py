@@ -27,6 +27,7 @@ def prepare_expected_value(number, op):
     :return: processed expected value in str
     """
     # FIXME: workaround
+    # Currently value from division not being handled properly
     if op == 'divide' or op == '/':
         return number
     else:
