@@ -41,13 +41,11 @@ def extract_value():
     ret, thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
 
     # Specify structure shape and kernel size.
-    # Kernel size increases or decreases the area
-    # of the rectangle to be detected.
-    # A smaller value like (10, 10) will detect
-    # each word instead of a sentence.
-    rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (18, 18))
+    # Kernel size increases or decreases the area of the rectangle to be detected.
+    # A smaller value like (10, 10) will detect each word instead of a sentence.
+    rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (30, 30))
 
-    # Appplying dilation on the threshold image
+    # Applying dilation on the threshold image
     dilation = cv2.dilate(thresh1, rect_kernel, iterations=1)
 
     # Finding contours
@@ -58,9 +56,9 @@ def extract_value():
     im2 = img.copy()
 
     # Looping through the identified contours
-    # Then rectangular part is cropped and passed on
-    # to pytesseract for extracting text from it
+    # Then rectangular part is cropped and passed on to pytesseract for extracting text from it
     # Extracted text is then written into the text file
+    full_text = ''
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
 
@@ -71,6 +69,9 @@ def extract_value():
         cropped = im2[y:y + h, x:x + w]
 
         # Apply OCR on the cropped image
-        text = pytesseract.image_to_string(cropped, config='--psm 10')
+        custom_config = '-l eng --oem 1 --psm 10 -c preserve_interword_spaces=1 ' \
+                        '-c tessedit_char_whitelist=".0123456789- " '
+        text = pytesseract.image_to_string(cropped, config=custom_config)
+        full_text += text
 
     return text.rstrip()
