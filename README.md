@@ -18,6 +18,7 @@ Run test using: `pytest -k calculator --html=report.html`
 **- Tools Used:**
 
 1. Selenium webdriver: Used to open browser, perform actions on online calculator
-2. PyAutoGUI: Used to capture image on the ROI (region of interest)
+2. pyautogui: Used to capture image on the ROI (region of interest)
 3. cv2, numpy: Used to pre-process image captured
-4. PyTesseract: Used to perform extraction of data from the captured image into string
+4. pytesseract: Used to perform extraction of data from the captured image into string
+5. pytest: Used as test framework and for test reporting
